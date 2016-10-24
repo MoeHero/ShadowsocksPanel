@@ -80,38 +80,33 @@
 
         <ul class="sidebar-menu">
           <li>
-            <a class="ajax" href="{:U('/Home/UserCenter/index')}">
+            <a class="ajax" href="#" data-toggle="Index">
               <i class="fa fa-dashboard"></i> <span>用户中心</span>
             </a>
           </li>
           <li>
-            <a class="ajax" href="/user/node">
+            <a class="ajax" href="#" data-toggle="NodeList">
               <i class="fa fa-sitemap"></i> <span>节点列表</span>
             </a>
           </li>
           <li>
-            <a class="ajax" href="/user/profile">
+            <a class="ajax" href="#" data-toggle="Profile">
               <i class="fa fa-user"></i> <span>我的信息</span>
             </a>
           </li>
           <li>
-            <a class="ajax" href="/user/trafficlog">
+            <a class="ajax" href="#" data-toggle="TrafficLog">
               <i class="fa fa-history"></i> <span>流量记录</span>
             </a>
           </li>
           <li>
-            <a class="ajax" href="/user/edit">
+            <a class="ajax" href="#" data-toggle="Edit">
               <i class="fa fa-pencil"></i> <span>修改资料</span>
-            </a>
-          </li>
-          <li>
-            <a class="ajax" href="/user/invite">
-              <i class="fa fa-users"></i> <span>邀请好友</span>
             </a>
           </li>
           <if var="isAdmin">
             <li>
-              <a href="/admin">
+              <a href="{:U('/Admin/Index/index')}">
                 <i class="fa fa-cog"></i> <span>管理面板</span>
               </a>
             </li>
@@ -121,116 +116,8 @@
       <!-- /.sidebar -->
     </aside>
 
-
     <div class="content-wrapper" id="content">
-      <section class="content-header">
-        <h1>用户中心 <small>User Center</small></h1>
-      </section>
-
-      <section class="content">
-        <div class="row">
-          <div class="col-md-6">
-            <div class="box box-primary">
-              <div class="box-header">
-                <i class="fa fa-bullhorn"></i>
-                <h3 class="box-title">公告&FAQ</h3>
-              </div>
-              <div class="box-body">
-                {$msg}
-              </div>
-            </div>
-          </div>
-
-          <div class="col-md-6">
-            <div class="box box-primary">
-              <div class="box-header">
-                <i class="fa fa-exchange"></i>
-                <h3 class="box-title">流量使用情况</h3>
-              </div>
-              <div class="box-body">
-                <div class="row">
-                  <div class="col-xs-12">
-                    <div class="progress progress-striped">
-                      <div class="progress-bar progress-bar-primary" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: {$user->trafficUsagePercent()}%">
-                        <span class="sr-only">Transfer</span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <dl class="dl-horizontal">
-                  <dt>总流量</dt>
-                  <dd>{$user->enableTraffic()}</dd>
-                  <dt>已用流量</dt>
-                  <dd>{$user->usedTraffic()}</dd>
-                  <dt>剩余流量</dt>
-                  <dd>{$user->unusedTraffic()}</dd>
-                </dl>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-md-6">
-            <div class="box box-primary">
-              <div class="box-header">
-                <i class="fa fa-pencil"></i>
-                <h3 class="box-title">签到获取流量</h3>
-              </div>
-              <div class="box-body">
-                <p>每{$config['checkinTime']}小时可以签到一次。</p>
-                <p>上次签到时间：<code>{$user->lastCheckInTime()}</code></p>
-                {if $user->isAbleToCheckin() }
-                <p id="checkin-btn"><button id="checkin" class="btn btn-success btn-flat">签到</button></p>
-                {else}
-                <p><a class="btn btn-success btn-flat disabled" href="#">不能签到</a></p>
-                {/if}
-                <p id="checkin-msg"></p>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-md-6">
-            <div class="box box-primary">
-              <div class="box-header">
-                <i class="fa fa-paper-plane"></i>
-                <h3 class="box-title">连接信息</h3>
-              </div>
-              <div class="box-body">
-                <dl class="dl-horizontal">
-                  <dt>端口</dt>
-                  <dd>{$user->port}</dd>
-                  <dt>密码</dt>
-                  <dd>{$user->passwd}</dd>
-                  <dt>自定义加密方式</dt>
-                  <dd>{$user->method}</dd>
-                  <dt>上次使用</dt>
-                  <dd>{$user->lastSsTime()}</dd>
-                </dl>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
     </div>
-
-    <script>
-      $(document).ready(function () {
-        $("#checkin").click(function () {
-          $.ajax({
-            type: "POST",
-            url: "/user/checkin",
-            dataType: "json",
-            success: function (data) {
-              $("#checkin-msg").html(data.msg);
-              $("#checkin-btn").hide();
-            },
-            error: function (jqXHR) {
-              alert("发生错误：" + jqXHR.status);
-            }
-          })
-        })
-      })
-    </script>
-
 
     <footer class="main-footer">
       <strong>Copyright &copy; 2016 <a href="/">MoeHero</a>.</strong> All rights reserved.
@@ -240,20 +127,6 @@
     </footer>
   </div><!-- ./wrapper -->
 
-  <script>
-    $(document).ready(function () {
-      $("#content").click(function () {
-        $.ajax({
-          type: "POST",
-          url: "/user/checkin",
-          success: function (data) {
-            $("#content").html(data);
-            $.getScript()
-          }
-        });
-      });
-    });
-  </script>
   <!-- jQuery 2.1.3 -->
   <js src="{__PUBLIC__}/Js/jquery.min.js"/>
   <!-- Bootstrap 3.3.2 JS -->
@@ -264,6 +137,21 @@
   <js src="{__PUBLIC__}/Js/fastclick/fastclick.min.js"/>
   <!-- AdminLTE App -->
   <js src="{__PUBLIC__}/Js/app.min.js"/>
+  <script>
+    $(document).ready(function () {
+      $(".ajax").click(function (e) {
+        e.preventDefault();
+        var page = $(this).attr("data-toggle");
+        $.ajax({
+          url: "{:U('/Home/UserCenter/getPage')}?page=" + page + "&type=page",
+          success: function (data) {
+            $("#content").html(data);
+            $.getScript("{:U('/Home/UserCenter/getPage')}?page=" + page + "&type=js");
+          }
+        });
+      });
+    });
+  </script>
   <div style="display:none;">
     {//$analyticsCode}
   </div>
