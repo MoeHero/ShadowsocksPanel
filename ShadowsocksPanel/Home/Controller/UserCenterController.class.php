@@ -14,6 +14,6 @@ class UserCenterController extends Controller {
     }
 
     function getUserInfo() {
-        
+        echo 'getUserInfo';
     }
 }
